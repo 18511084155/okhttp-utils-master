@@ -1,8 +1,8 @@
 apply plugin: 'com.android.application'
 
-def buildSdkVersion = 24
-def buildToolVersion = "24.0.3"
-def supportVersion = "24.2.1"
+def buildSdkVersion = 23
+def buildToolVersion = "23.0.3"
+def supportVersion = "23.2.0"
 
 android {
     compileSdkVersion buildSdkVersion
@@ -10,13 +10,13 @@ android {
     defaultConfig {
         applicationId "com.lzy.demo"
         minSdkVersion 14
-        targetSdkVersion 24
+        targetSdkVersion 23
         versionCode 20
         versionName "2.0.0"
     }
     signingConfigs {
         appkey {
-            keyAlias 'OkHttpUtils'
+            keyAlias 'okhttputils'
             keyPassword '111111'
             storeFile file('appkey.jks')
             storePassword '111111'
@@ -41,12 +41,13 @@ android {
             proguardFile './proguard-rules.pro'
             signingConfig signingConfigs.appkey
         }
-        qihu360 {
-            proguardFile './proguard-rules.pro'
-            signingConfig signingConfigs.appkey
-        }
+    }
+
+    lintOptions {
+        abortOnError false
     }
 }
+
 
 task makeApk {
     doLast {

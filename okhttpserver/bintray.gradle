@@ -1,0 +1,54 @@
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.jfrog.bintray'
+
+version = "1.0.0"              // 数据仓库依赖第三部分
+
+def siteUrl = 'https://github.com/18511084155/okhttp-utils-master'
+def gitUrl = 'https://github.com/18511084155/okhttp-utils-master.git'
+group = "com.woodys.okserver"       // 数据仓库依赖第一部分
+
+install {
+    repositories.mavenInstaller {
+        pom {
+            project {
+                packaging 'aar'
+                name 'okhttpserver For Android'     // 项目描述
+                url siteUrl
+                licenses {
+                    license {
+                        name 'The Apache Software License, Version 1.0'
+                        url 'http://www.apache.org/licenses/LICENSE-1.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id 'woody'                // 开发者信息
+                        name 'woody'              // 开发者信息
+                        email '1126422054@qq.com'    // 开发者信息
+                    }
+                }
+                scm {
+                    connection gitUrl
+                    developerConnection gitUrl
+                    url siteUrl
+                }
+            }
+        }
+    }
+}
+
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+bintray {
+    user = properties.getProperty("bintray.user")
+    key = properties.getProperty("bintray.apikey")
+    configurations = ['archives']
+    pkg {
+        repo = "maven"
+        name = "okhttpserver"             // 数据仓库依赖第二部分
+        websiteUrl = siteUrl
+        vcsUrl = gitUrl
+        licenses = ["Apache-2.0"]
+        publish = true
+    }
+}

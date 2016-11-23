@@ -126,7 +126,7 @@ public abstract class PriorityAsyncTask<Params, Progress, Result> {
     /**
      * <p>Runs on the UI thread after {@link #doInBackground}. The
      * specified result is the value returned by {@link #doInBackground}.</p>
-     * <p/>
+     *
      * <p>This method won't be invoked if the task was cancelled.</p>
      *
      * @param result The result of the operation computed by {@link #doInBackground}.
@@ -153,7 +153,7 @@ public abstract class PriorityAsyncTask<Params, Progress, Result> {
     /**
      * <p>Runs on the UI thread after {@link #cancel(boolean)} is invoked and
      * {@link #doInBackground(Object[])} has finished.</p>
-     * <p/>
+     *
      * <p>The default implementation simply invokes {@link #onCancelled()} and
      * ignores the result. If you write your own implementation, do not call
      * <code>super.onCancelled(result)</code>.</p>
@@ -172,7 +172,7 @@ public abstract class PriorityAsyncTask<Params, Progress, Result> {
      * <p>Applications should preferably override {@link #onCancelled(Object)}.
      * This method is invoked by the default implementation of
      * {@link #onCancelled(Object)}.</p>
-     * <p/>
+     *
      * <p>Runs on the UI thread after {@link #cancel(boolean)} is invoked and
      * {@link #doInBackground(Object[])} has finished.</p>
      *
