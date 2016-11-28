@@ -1,8 +1,8 @@
 apply plugin: 'com.android.application'
 
-def buildSdkVersion = 23
-def buildToolVersion = "23.0.3"
-def supportVersion = "23.2.0"
+def buildSdkVersion = 24
+def buildToolVersion = "24.0.2"
+def supportVersion = "24.2.1"
 
 android {
     compileSdkVersion buildSdkVersion
@@ -10,7 +10,7 @@ android {
     defaultConfig {
         applicationId "com.lzy.demo"
         minSdkVersion 14
-        targetSdkVersion 23
+        targetSdkVersion 24
         versionCode 20
         versionName "2.0.0"
     }
@@ -65,6 +65,7 @@ task makeApk {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
+
     compile 'com.android.support:appcompat-v7:' + supportVersion
     compile 'com.android.support:design:' + supportVersion
     compile 'com.android.support:recyclerview-v7:' + supportVersion
@@ -77,8 +78,6 @@ dependencies {
     compile 'com.lzy.widget:ninegridview:0.2.1'
     compile 'com.lzy.widget:imagepicker:0.3.2'
     compile 'com.lzy.widget:view-core:0.2.1'
-    //    compile 'com.lzy.net:okgo:2.0.0'
-    //    compile 'com.lzy.net:okrx:0.1.0'
-    //    compile 'com.lzy.net:okserver:1.1.0'
+
     compile project(':okhttpserver')
 }
