@@ -1,10 +1,10 @@
 <manifest
-    package="com.lzy.okserver"
+    package="com.woodys.okserver"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <application >
 
-        <service android:name="com.lzy.okserver.download.DownloadService"/>
+        <service android:name="com.woodys.okserver.download.DownloadService"/>
 
     </application>
 

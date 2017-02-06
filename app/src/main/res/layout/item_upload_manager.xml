@@ -29,15 +29,16 @@
             android:textColor="#FFF"
             app:ppvBackgroundColor="#AAA"
             app:ppvProgress="0"
+            android:text="未生产"
             app:ppvProgressColor="#DDD"
             app:ppvStrokeColor="#FFF"
             app:ppvStrokeWidth="1dp"/>
     </FrameLayout>
-
     <TextView
         android:id="@+id/tvProgress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="未上传"/>
+
 </LinearLayout>
