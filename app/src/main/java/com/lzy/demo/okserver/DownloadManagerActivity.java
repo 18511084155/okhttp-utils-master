@@ -21,9 +21,9 @@ import com.lzy.demo.utils.ApkUtils;
 import com.lzy.demo.utils.AppCacheUtils;
 import com.woodys.okserver.download.DownloadInfo;
 import com.woodys.okserver.download.DownloadManager;
-import com.woodys.okserver.download.DownloadService;
 import com.woodys.okserver.listener.DownloadListener;
 import com.woodys.okserver.task.ExecutorWithListener;
+import com.woodys.okserver.utils.ExternalStorageUtils;
 
 import java.io.File;
 import java.util.List;
@@ -45,7 +45,7 @@ public class DownloadManagerActivity extends BaseActivity implements View.OnClic
         setContentView(R.layout.activity_download_manager);
         initToolBar(toolbar, true, "下载管理");
 
-        downloadManager = DownloadService.getDownloadManager();
+        downloadManager = DownloadManager.getInstance().setDownloadFolder(getApplicationContext(),ExternalStorageUtils.DOWNLOADS_TARGET_FOLDER);
         allTask = downloadManager.getAllTask();
         adapter = new MyAdapter();
         listView.setAdapter(adapter);

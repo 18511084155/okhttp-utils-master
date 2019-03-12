@@ -18,9 +18,9 @@ import com.lzy.demo.utils.ApkUtils;
 import com.woodys.okserver.OkHttpUtils;
 import com.woodys.okserver.download.DownloadInfo;
 import com.woodys.okserver.download.DownloadManager;
-import com.woodys.okserver.download.DownloadService;
 import com.woodys.okserver.listener.DownloadListener;
 import com.woodys.okserver.network.request.GetRequest;
+import com.woodys.okserver.utils.ExternalStorageUtils;
 
 import java.io.File;
 
@@ -51,7 +51,7 @@ public class DesActivity extends BaseActivity implements View.OnClickListener {
         initToolBar(toolbar, true, "下载管理");
 
         apk = (ApkModel) getIntent().getSerializableExtra("apk");
-        downloadManager = DownloadService.getDownloadManager();
+        downloadManager = DownloadManager.getInstance().setDownloadFolder(getApplicationContext(), ExternalStorageUtils.DOWNLOADS_TARGET_FOLDER);
 
         Glide.with(this).load(apk.getIconUrl()).error(R.mipmap.ic_launcher).into(icon);
         name.setText(apk.getName());

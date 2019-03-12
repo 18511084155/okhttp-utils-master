@@ -1,12 +1,13 @@
 package com.woodys.okserver.download;
 
-import android.os.Environment;
+import android.content.Context;
 import android.text.TextUtils;
 
 import com.woodys.okserver.download.db.DownloadDBManager;
 import com.woodys.okserver.listener.DownloadListener;
 import com.woodys.okserver.network.request.BaseRequest;
 import com.woodys.okserver.task.ExecutorWithListener;
+import com.woodys.okserver.utils.ExternalStorageUtils;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -24,8 +25,6 @@ import java.util.ListIterator;
  * ================================================
  */
 public class DownloadManager {
-
-    public static final String DM_TARGET_FOLDER = File.separator + "download" + File.separator; //下载管理目标文件夹
 
     //定义下载状态常量
     public static final int NONE = 0;         //无状态  --> 等待
@@ -52,14 +51,15 @@ public class DownloadManager {
         return mInstance;
     }
 
+    public DownloadManager setDownloadFolder(Context context,String targetFolderName){
+        mTargetFolder = ExternalStorageUtils.getDiskCacheDir(context,targetFolderName);
+        return mInstance;
+    }
+
     private DownloadManager() {
         mDownloadInfoList = Collections.synchronizedList(new ArrayList<DownloadInfo>());
         mDownloadUIHandler = new DownloadUIHandler();
         threadPool = new DownloadThreadPool();
-        //初始化目标Download保存目录
-        String folder = Environment.getExternalStorageDirectory() + DM_TARGET_FOLDER;
-        if (!new File(folder).exists()) new File(folder).mkdirs();
-        mTargetFolder = folder;
 
         mDownloadInfoList = DownloadDBManager.INSTANCE.getAll(); //获取所有任务
         if (mDownloadInfoList != null && !mDownloadInfoList.isEmpty()) {
@@ -76,13 +76,14 @@ public class DownloadManager {
 
     /** 添加一个下载任务,一句taskTag标识是否属于同一个任务 */
     public void addTask(String taskTag, BaseRequest request, DownloadListener listener) {
-        addTask(null, taskTag, request, listener, false);
+        addTask(mTargetFolder,null, taskTag, request, listener, false);
     }
 
     /** 添加一个下载任务,一句taskTag标识是否属于同一个任务 */
     public void addTask(String fileName, String taskTag, BaseRequest request, DownloadListener listener) {
-        addTask(fileName, taskTag, request, listener, false);
+        addTask(mTargetFolder,fileName, taskTag, request, listener, false);
     }
+
 
     /**
      * 添加一个下载任务
@@ -91,7 +92,10 @@ public class DownloadManager {
      * @param listener  下载监听
      * @param isRestart 是否重新开始下载
      */
-    private void addTask(String fileName, String taskTag, BaseRequest request, DownloadListener listener, boolean isRestart) {
+    private void addTask(String targetFolderName,String fileName, String taskTag, BaseRequest request, DownloadListener listener, boolean isRestart) {
+        if (targetFolderName == null || targetFolderName.isEmpty()) {
+            throw new IllegalArgumentException("targetFolderName not empty,targetFolderName is invalid!");
+        }
         DownloadInfo downloadInfo = getDownloadInfo(taskTag);
         if (downloadInfo == null) {
             downloadInfo = new DownloadInfo();
@@ -100,7 +104,7 @@ public class DownloadManager {
             downloadInfo.setFileName(fileName);
             downloadInfo.setRequest(request);
             downloadInfo.setState(DownloadManager.NONE);
-            downloadInfo.setTargetFolder(mTargetFolder);
+            downloadInfo.setTargetFolder(targetFolderName);
             DownloadDBManager.INSTANCE.replace(downloadInfo);
             mDownloadInfoList.add(downloadInfo);
         }
@@ -200,7 +204,7 @@ public class DownloadManager {
                         //因为该监听是全局监听，每次任务被移除都会回调，所以以下方法执行一次后，必须移除，否者会反复调用
                         threadPool.getExecutor().removeOnTaskEndListener(this);
                         //此时监听给空，表示会使用之前的监听，true表示重新下载，会删除临时文件
-                        addTask(downloadInfo.getFileName(), downloadInfo.getTaskKey(), downloadInfo.getRequest(), downloadInfo.getListener(), true);
+                        addTask(downloadInfo.getTargetFolder(),downloadInfo.getFileName(), downloadInfo.getTaskKey(), downloadInfo.getRequest(), downloadInfo.getListener(), true);
                     }
                 }
             });
@@ -253,6 +257,8 @@ public class DownloadManager {
         if (file.isFile()) return file.delete();
         return false;
     }
+
+
 
     /** 设置下载目标目录 */
     public String getTargetFolder() {

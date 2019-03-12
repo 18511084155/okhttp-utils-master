@@ -42,7 +42,7 @@ public class DownloadInfo implements Comparable<DownloadInfo> {
     private int id;                     //id自增长
     private String taskKey;             //下载的标识键
     private String url;                 //文件URL
-    private String targetFolder;        //保存文件夹
+    private String targetFolder;        //保存文件夹,根目录
     private String targetPath;          //保存文件地址
     private String fileName;            //保存的文件名
     private float progress;             //下载进度

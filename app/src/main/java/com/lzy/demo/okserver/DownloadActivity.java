@@ -25,7 +25,7 @@ import com.lzy.demo.utils.AppCacheUtils;
 import com.woodys.okserver.OkHttpUtils;
 import com.woodys.okserver.network.request.GetRequest;
 import com.woodys.okserver.download.DownloadManager;
-import com.woodys.okserver.download.DownloadService;
+import com.woodys.okserver.utils.ExternalStorageUtils;
 
 import java.util.ArrayList;
 
@@ -52,7 +52,7 @@ public class DownloadActivity extends BaseActivity {
         initToolBar(toolbar, true, "下载管理");
 
         initData();
-        downloadManager = DownloadService.getDownloadManager();
+        downloadManager = DownloadManager.getInstance().setDownloadFolder(getApplicationContext(), ExternalStorageUtils.DOWNLOADS_TARGET_FOLDER);
 
         targetFolder.setText("下载路径: " + downloadManager.getTargetFolder());
         sbCorePoolSize.setMax(5);
