@@ -1,8 +1,8 @@
 apply plugin: 'com.android.application'
 
-def buildSdkVersion = 24
-def buildToolVersion = "24.0.2"
-def supportVersion = "24.2.1"
+def buildSdkVersion = 25
+def buildToolVersion = "25.0.3"
+def supportVersion = "25.3.0"
 
 android {
     compileSdkVersion buildSdkVersion
@@ -10,7 +10,7 @@ android {
     defaultConfig {
         applicationId "com.lzy.demo"
         minSdkVersion 14
-        targetSdkVersion 24
+        targetSdkVersion 23
         versionCode 20
         versionName "2.0.0"
     }
